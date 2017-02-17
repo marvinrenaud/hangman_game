@@ -1,0 +1,37 @@
+body, h1, h2, h3, p, a {
+  font-family: 'Cinzel', serif;
+}
+
+.navbar-brand {
+  font-family: 'Cinzel', serif;
+  font-size: 200%;
+  text-align: center;
+}
+
+.logo {
+  max-height: 100px;
+  display: block;
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  text-align: center;
+
+}
+
+ul {
+  margin-bottom: 50px;
+}
+
+.grey_border {
+  border-style: solid;
+  border-color: #7c7d7f;
+  margin: 20px 0px 20px 0px
+}
+
+.center_text {
+  text-align: center;
+}
+
+#team_name {
+  margin: 10px 10px 10px 10px;
+}
