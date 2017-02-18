@@ -17,52 +17,71 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-              <a class="navbar-brand" href="index.html">Patriots Hangman</a>
+                <a class="navbar-brand" href="index.html">Patriots Hangman</a>
             </div>
         </div>
     </nav>
 
     <div class="container">
-      <div class="row">
-        <h2>Game Play Instructions</h2>
-      </div>
-      <div class="row">
-        <ul>
-          <li>
-            Now that there is the Tec-9, a crappy spray gun from South Miami.
-          </li>
-          <li>
-            This gun is advertised as the most popular gun in American crime.
-          </li>
-          <li>
-            Do you believe that shit?
-          </li>
-          <li>
-            It actually says that in the little book that comes with it: the most popular gun in American crime.
-          </li>
-          <li>
-            Like they're actually proud of that shit.
-          </li>
-        </ul>
-      </div>
-      <div class="row grey_border">
-        <div class="col-md-5">
-          <img src="assets/images/patriots.png" class="logo" alt="pats logo" />
+        <div class="row">
+            <h2>Game Play Instructions</h2>
         </div>
-        <div class="col-md-2 logo">
-          <h2>vs.</h2>
+        <div class="row">
+            <ul>
+                <li>
+                    Now that there is the Tec-9, a crappy spray gun from South Miami.
+                </li>
+                <li>
+                    This gun is advertised as the most popular gun in American crime.
+                </li>
+                <li>
+                    Do you believe that shit?
+                </li>
+                <li>
+                    It actually says that in the little book that comes with it: the most popular gun in American crime.
+                </li>
+                <li>
+                    Like they're actually proud of that shit.
+                </li>
+            </ul>
         </div>
-        <div class="col-md-5">
-          <img src="assets/images/question_mark.png" alt="blank logo" class="logo center-block img-rounded"/>
+        <div class="row grey_border">
+            <div class="col-md-5">
+                <img src="assets/images/patriots.png" class="logo" alt="pats logo" />
+            </div>
+            <div class="col-md-2 logo">
+                <h2>vs.</h2>
+            </div>
+            <div class="col-md-5">
+                <img src="assets/images/question_mark.png" alt="blank logo" class="logo center-block img-rounded" />
+            </div>
         </div>
-      </div>
-      <div class="row grey_border center_text">
-        <h3>Guessing Team Name:</h3>
-        <div id="team_name">
-          <h3>hmmm...</h3>
+        <div class="row grey_border center_text">
+            <h3>Guessing Team Name:</h3>
+            <div id="team_name">
+                <h3>hmmm...</h3>
+            </div>
+
+        </div>
+        <div class="row grey_border">
+            <div class="col-md-6 center_text">
+                <h4>Letters Played</h4>
+                <div id="lettersPlayed">
+                    <p>
+                        n/a
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6 center_text">
+                <h4>Guesses Remaining</h4>
+                <div id="guessesRemaining">
+                    <p>
+                        8
+                    </p>
+                </div>
+            </div>
         </div>
 
-      </div>
 
 
 
@@ -70,71 +89,99 @@
     </div>
 
     <script>
-    // Create list, array of potential teams
-    var teams = [
-      "falcons",
-      "steelers",
-      "texans",
-      "cardinals",
-      "dolphins",
-      "bills"
-    ];
+        // Create list, array of potential teams
+        var teams = [
+            "falcons",
+            "steelers",
+            "texans",
+            "cardinals",
+            "dolphins",
+            "bills"
+        ];
 
-    //Pick a team name randomly
-    var random_number = Math.floor(Math.random() * 6);
-    console.log(random_number);
+        //Pick a team name randomly
+        var random_number = Math.floor(Math.random() * 6);
+        console.log(random_number);
 
-    var current_team = teams[random_number]
-    console.log(current_team);
+        var current_team = teams[random_number]
+        console.log(current_team);
 
-    //Get length of team name
-    var name_length = current_team.length
-    console.log(name_length);
+        //Get length of team name
+        var name_length = current_team.length
+        console.log(name_length);
 
-    //Inject dashes that match team name length
-    function dashName() {
-      var nameHolder = ""
-      for (var i = 0; i < name_length; i++) {
-        nameHolder = nameHolder + " _ "
-      };
-      return nameHolder;
+        //Inject dashes that match team name length
+        function dashName() {
+            nameHolder = []
+            for (var i = 0; i < name_length; i++) {
+                nameHolder[i] = " _ "
+            };
+            return nameHolder;
 
-    }
+        }
 
-    var targetDiv = document.getElementById("team_name");
-    targetDiv.innerHTML = dashName();
-
-    //Register the user's keystroke entry
-    document.onkeyup = function keyStroke(event) {
-      var letter = String.fromCharCode(event.keyCode).toLowerCase();
-      console.log(letter);
-    }
+        var targetDiv = document.getElementById("team_name");
+        targetDiv.innerHTML = dashName().join("");
+        console.log(nameHolder);
 
 
+        //Register the user's keystroke entry and post to board
+        var letterArray = [];
+        document.onkeyup = function keyStroke(event) {
+            letter = String.fromCharCode(event.keyCode).toLowerCase();
+            console.log(letter);
+            letterArray.push(letter);
+            console.log(letterArray);
+            var targetLetters = document.getElementById("lettersPlayed");
+            targetLetters.innerHTML = letterArray;
+            var score = 10 - letterArray.length;
+            console.log(score);
+
+            var targetScore = document.getElementById("guessesRemaining");
+            targetScore.innerHTML = score;
+
+            if (current_team.indexOf(letter) > -1) {
+                console.log(letter + " works.");
+                letterIndex = current_team.indexOf(letter);
+                console.log(letterIndex);
+                console.log(current_team.length);
+
+            } else {
+                console.log(letter + " not working");
+
+            }
+
+            return letter;
+            return letterArray;
+
+        }
 
 
 
-    //function createDash() {
-    //  for (var i = 0; i < name_length; i++) {
-    //   document.write(" _ ");
-    // };
-
-    //}
-
-    //Generate dashes for team name length
-    // for (var i = 0; i < name_length; i++) {
-    //  document.write(" _ ");
-    //};
-
-
-    //
 
 
 
 
+
+
+        //function createDash() {
+        //  for (var i = 0; i < name_length; i++) {
+        //   document.write(" _ ");
+        // };
+
+        //}
+
+        //Generate dashes for team name length
+        // for (var i = 0; i < name_length; i++) {
+        //  document.write(" _ ");
+        //};
+
+
+        //
     </script>
 
 
 
 </body>
+
 </html>
