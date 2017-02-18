@@ -35,3 +35,11 @@ ul {
 #team_name {
   margin: 10px 10px 10px 10px;
 }
+
+.container {
+  background-color: white;
+}
+
+li {
+  font-size: 20px;
+}

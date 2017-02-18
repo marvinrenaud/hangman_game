@@ -29,19 +29,16 @@
         <div class="row">
             <ul>
                 <li>
-                    Now that there is the Tec-9, a crappy spray gun from South Miami.
+                    This is an NFL team themed game of hangman
                 </li>
                 <li>
-                    This gun is advertised as the most popular gun in American crime.
+                    You are trying to guess the name of an NFL team that has played (and loss to) the Patriots
                 </li>
                 <li>
-                    Do you believe that shit?
+                    You get ten letter guesses to fill in the name to be a winner...or a loser if you run out of guesses
                 </li>
                 <li>
-                    It actually says that in the little book that comes with it: the most popular gun in American crime.
-                </li>
-                <li>
-                    Like they're actually proud of that shit.
+                    The rival team's logo will appear if/when you guess it right
                 </li>
             </ul>
         </div>
@@ -53,7 +50,9 @@
                 <h2>vs.</h2>
             </div>
             <div class="col-md-5">
-                <img src="assets/images/question_mark.png" alt="blank logo" class="logo center-block img-rounded" />
+                <div id="logoPlace">
+                    <img src="assets/images/question_mark.png" alt="blank logo" class="logo center-block img-rounded" />
+                </div>
             </div>
         </div>
         <div class="row grey_border center_text">
@@ -68,7 +67,7 @@
                 <h4>Letters Played</h4>
                 <div id="lettersPlayed">
                     <p>
-                        n/a
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                     </p>
                 </div>
             </div>
@@ -76,7 +75,7 @@
                 <h4>Guesses Remaining</h4>
                 <div id="guessesRemaining">
                     <p>
-                        8
+                        10
                     </p>
                 </div>
             </div>
@@ -89,26 +88,24 @@
     </div>
 
     <script>
-        // Create list, array of potential teams
+
+        // Create array of teams Pats have beat
         var teams = [
             "falcons",
-            "steelers",
+            "browns",
             "texans",
-            "cardinals",
             "dolphins",
-            "bills"
+            "ravens",
+            "rams"
         ];
 
-        //Pick a team name randomly
+        //Pick one of the teams from the array randomly
         var random_number = Math.floor(Math.random() * 6);
-        console.log(random_number);
 
         var current_team = teams[random_number]
-        console.log(current_team);
 
         //Get length of team name
         var name_length = current_team.length
-        console.log(name_length);
 
         //Inject dashes that match team name length
         function dashName() {
@@ -120,39 +117,99 @@
 
         }
 
+        //Write in properly guessed letters to board
         var targetDiv = document.getElementById("team_name");
         targetDiv.innerHTML = dashName().join("");
-        console.log(nameHolder);
-
 
         //Register the user's keystroke entry and post to board
         var letterArray = [];
         document.onkeyup = function keyStroke(event) {
             letter = String.fromCharCode(event.keyCode).toLowerCase();
-            console.log(letter);
             letterArray.push(letter);
-            console.log(letterArray);
             var targetLetters = document.getElementById("lettersPlayed");
             targetLetters.innerHTML = letterArray;
-            var score = 10 - letterArray.length;
-            console.log(score);
+            score = 10 - letterArray.length;
 
             var targetScore = document.getElementById("guessesRemaining");
             targetScore.innerHTML = score;
 
-            if (current_team.indexOf(letter) > -1) {
-                console.log(letter + " works.");
-                letterIndex = current_team.indexOf(letter);
-                console.log(letterIndex);
-                console.log(current_team.length);
+            //If remaining tries reaches less than zero then end game
+            if (score === 0) {
+              endGame();
+            }
 
-            } else {
-                console.log(letter + " not working");
+            //Determine if letter entered is part of team name
+            if (current_team.indexOf(letter) > -1) {
+                letterIndex = current_team.indexOf(letter);
+                nameHolder[letterIndex] = letter;
+                //If letter entered is in team name, update board
+                var targetDiv = document.getElementById("team_name");
+                targetDiv.innerHTML = nameHolder.join("");
+                if (nameHolder.join("") == current_team) {
+                    winImage(current_team);
+                    winGame();
+
+                }
+
+
+            }
+        }
+
+
+
+        function winImage(teamLogo) {
+            switch (current_team) {
+                case "falcons":
+                    var loseLogo = document.getElementById("logoPlace");
+                    loseLogo.innerHTML = "<img src=\"assets/images/falcons.png\" alt=\"falcons logo\" class=\"logo center-block \"/>";
+                    break;
+
+                case "browns":
+                    var loseLogo = document.getElementById("logoPlace");
+                    loseLogo.innerHTML = "<img src=\"assets/images/browns.png\" alt=\"browns logo\" class=\"logo center-block \"/>";
+                    break;
+
+                case "texans":
+                    var loseLogo = document.getElementById("logoPlace");
+                    loseLogo.innerHTML = "<img src=\"assets/images/texans.png\" alt=\"texans logo\" class=\"logo center-block \"/>";
+                    break;
+
+
+                case "dolphins":
+                    var loseLogo = document.getElementById("logoPlace");
+                    loseLogo.innerHTML = "<img src=\"assets/images/dolphins.png\" alt=\"dolphins logo\" class=\"logo center-block \"/>";
+                    break;
+
+                case "ravens":
+                    var loseLogo = document.getElementById("logoPlace");
+                    loseLogo.innerHTML = "<img src=\"assets/images/ravens.png\" alt=\"ravens logo\" class=\"logo center-block \"/>";
+                    break;
+
+                case "rams":
+                    var loseLogo = document.getElementById("logoPlace");
+                    loseLogo.innerHTML = "<img src=\"assets/images/rams.png\" alt=\"rams logo\" class=\"logo center-block \"/>";
+                    break;
+
+
+                default:
+                    text = "Nothing";
 
             }
 
-            return letter;
-            return letterArray;
+
+
+        }
+
+
+        function winGame() {
+            alert("Congrats!!! You're a Patriot!!!")
+            alert("Refresh this window to win again")
+
+        }
+
+        function endGame() {
+            alert("You Lose!!! You are NOT a Patriot!!!")
+            alert("Close this window and get your life together")
 
         }
 
@@ -164,20 +221,7 @@
 
 
 
-        //function createDash() {
-        //  for (var i = 0; i < name_length; i++) {
-        //   document.write(" _ ");
-        // };
 
-        //}
-
-        //Generate dashes for team name length
-        // for (var i = 0; i < name_length; i++) {
-        //  document.write(" _ ");
-        //};
-
-
-        //
     </script>
 
 
